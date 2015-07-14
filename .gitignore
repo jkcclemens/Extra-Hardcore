@@ -1,0 +1,11 @@
+# Mac filesystem dust
+.DS_Store
+
+# intellij
+*.iml
+*.ipr
+*.iws
+.idea/
+
+_site
+/js/compiler

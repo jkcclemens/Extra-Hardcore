@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>FNVEH – Math sheet</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.0.3/semantic.min.css"/>
+  <link rel="stylesheet" href="css/unsemantic-grid-responsive.css"/>
+  <link rel="stylesheet" href="css/styles.css"/>
+</head>
+<body>
+<div class="ui container grid-container">
+  <div class="grid-70 push-15">
+    <div class="ui left dividing rail">
+      <div class="ui right aligned sticky" style="padding-top: .5em;">
+        <div class="ui buttons">
+          <div id="save_button" class="ui black button">
+            <div>Save</div>
+          </div>
+          <div class="ui flowing popup transition hidden">
+            <div id="save_toggle" class="ui toggle checkbox">
+              <input id="internal_save_toggle" class="hidden" tabindex="0" type="checkbox">
+              <label>Autosave</label>
+            </div>
+          </div>
+          <div class="or"></div>
+          <div id="load_button" class="ui red button">
+            <div>Load</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui right dividing rail">
+      <div class="ui sticky">
+        <div class="ui statistics">
+          <div class="statistic">
+            <div id="max_carry_weight" class="value">
+              0
+            </div>
+            <div class="label">
+              Max carry weight
+            </div>
+          </div>
+          <div class="statistic">
+            <div class="value">
+              <i id="follower_icon" class="ui black user icon"></i>
+            </div>
+            <div class="label">
+              Follower status
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h1 class="ui center aligned icon header">
+      <i class="circular red plus icon"></i>
+      Fallout: New Vegas – Extra Hardcore Math Sheet
+    </h1>
+    <div class="ui vertical segment">
+      <h2 class="ui center aligned header">Basic information</h2>
+      <div class="ui fluid form">
+        <div class="two fields">
+          <div class="field">
+            <label>Character name</label>
+            <input type="text" id="name" placeholder="Courier"/>
+          </div>
+          <div class="field">
+            <label>Level</label>
+            <input type="number" min="1" id="level" placeholder="1"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui vertical segment">
+      <h2 class="ui center aligned header">S.P.E.C.I.A.L.</h2>
+          <div class="grid-parent">
+            <div class="ui fluid form">
+              <div class="three fields">
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Strength</label>
+                    <input type="number" min="1" max="10" id="strength" placeholder="5"/>
+                  </div>
+                </div> <!-- /Strength grid -->
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Perception</label>
+                    <input type="number" min="1" max="10" id="perception" placeholder="5"/>
+                  </div>
+                </div> <!-- /Perception grid -->
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Endurance</label>
+                    <input type="number" min="1" max="10" id="endurance" placeholder="5"/>
+                  </div>
+                </div> <!-- /Endurance grid -->
+              </div>
+              <div class="three fields">
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Charisma</label>
+                    <input type="number" min="1" max="10" id="charisma" placeholder="5"/>
+                  </div>
+                </div> <!-- /Charisma grid -->
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Intelligence</label>
+                    <input type="number" min="1" max="10" id="intelligence" placeholder="5"/>
+                  </div>
+                </div> <!-- /Intelligence grid -->
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Agility</label>
+                    <input type="number" min="1" max="10" id="agility" placeholder="5"/>
+                  </div>
+                </div> <!-- /Agility grid -->
+              </div>
+              <div class="grid-100">
+                <div class="field">
+                  <label>Luck</label>
+                  <input type="number" min="1" max="10" id="luck" placeholder="5"/>
+                </div>
+              </div> <!-- /Luck grid -->
+          </div> <!-- /UI fluid form -->
+        </div> <!-- /SPECIAL grid div -->
+      </div>
+    <div class="ui vertical segment">
+      <h2 class="ui center aligned header">Inventory</h2>
+      <div class="grid-parent">
+        <div class="ui fluid form">
+          <div class="field">
+            <label>Armor weight</label>
+            <input type="number" min="0" id="armor_weight" placeholder="25"/>
+          </div>
+          <h3 class="ui center aligned header">Currency</h3>
+          <div class="three fields">
+            <div class="grid-33">
+              <div class="field">
+                <label>Bottle caps</label>
+                <div class="ui corner labeled input">
+                  <input type="number" min="0" id="bottle_caps" placeholder="250"/>
+                  <div class="ui corner label">
+                    <i id="caps_help" class="help circle icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="grid-33">
+              <div class="field">
+                <label>NCR bills</label>
+                <div class="ui corner labeled input">
+                  <input type="number" min="0" id="bills" placeholder="250"/>
+                  <div class="ui corner label">
+                    <i id="bills_help" class="help circle icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="grid-33">
+              <div class="field">
+                <label>Legion coins</label>
+                <div class="ui corner labeled input">
+                  <input type="number" min="0" id="coins" placeholder="250"/>
+                  <div class="ui corner label">
+                    <i id="coins_help" class="help circle icon"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ui vertical segment">
+      <h2 id="follower_header" data-position="top center" class="ui center aligned header">Follower</h2>
+      <div class="ui flowing popup transition hidden">
+        <button id="follower_dismiss_button" class="ui red button">Dismiss</button>
+      </div>
+      <div id="follower_dropdown" class="ui fluid search selection dropdown">
+        <input id="selected_follower" type="hidden"/>
+        <i class="dropdown icon"></i>
+        <div class="default text">Select follower</div>
+        <div class="menu">
+          <div class="item" data-value="arcade">
+            <img class="ui mini avatar image" src="img/avatars/arcade.png"/>
+            Arcade Israel Gannon
+          </div>
+          <div class="item" data-value="boone">
+            <img class="ui mini avatar image" src="img/avatars/boone.png"/>
+            Craig Boone
+          </div>
+          <div class="item" data-value="lily">
+            <img class="ui mini avatar image" src="img/avatars/lily.png"/>
+            Lily Bowen
+          </div>
+          <div class="item" data-value="raul">
+            <img class="ui mini avatar image" src="img/avatars/raul.png"/>
+            Raul Tejada
+          </div>
+          <div class="item" data-value="cass">
+            <img class="ui mini avatar image" src="img/avatars/cass.png"/>
+            Rose of Sharon Cassidy
+          </div>
+          <div class="item" data-value="veronica">
+            <img class="ui mini avatar image" src="img/avatars/veronica.png"/>
+            Veronica Santangelo
+          </div>
+          <div class="item" data-value="ede">
+            <img class="ui mini avatar image" src="img/avatars/ede.png"/>
+            ED-E
+          </div>
+        </div>
+      </div>
+      <h3 class="ui center aligned header">S.P.E.C.I.A.L.</h3>
+          <div class="grid-parent">
+            <div id="follower_special" class="ui fluid form">
+              <div class="three fields">
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Strength</label>
+                    <input type="number" min="1" max="10" id="follower_strength" placeholder="5"/>
+                  </div>
+                </div> <!-- /Strength grid -->
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Perception</label>
+                    <input type="number" min="1" max="10" id="follower_perception" placeholder="5"/>
+                  </div>
+                </div> <!-- /Perception grid -->
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Endurance</label>
+                    <input type="number" min="1" max="10" id="follower_endurance" placeholder="5"/>
+                  </div>
+                </div> <!-- /Endurance grid -->
+              </div>
+              <div class="three fields">
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Charisma</label>
+                    <input type="number" min="1" max="10" id="follower_charisma" placeholder="5"/>
+                  </div>
+                </div> <!-- /Charisma grid -->
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Intelligence</label>
+                    <input type="number" min="1" max="10" id="follower_intelligence" placeholder="5"/>
+                  </div>
+                </div> <!-- /Intelligence grid -->
+                <div class="grid-33">
+                  <div class="field">
+                    <label>Agility</label>
+                    <input type="number" min="1" max="10" id="follower_agility" placeholder="5"/>
+                  </div>
+                </div> <!-- /Agility grid -->
+              </div>
+              <div class="grid-100">
+                <div class="field">
+                  <label>Luck</label>
+                  <input type="number" min="1" max="10" id="follower_luck" placeholder="5"/>
+                </div>
+              </div> <!-- /Luck grid -->
+          </div> <!-- /UI fluid form -->
+        </div> <!-- /SPECIAL grid div -->
+    </div>
+  </div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/semantic.min.js"></script>
+<script src="js/js.cookie.js"></script>
+<script src="js/fun_math.js"></script>
+</body>
+</html>
