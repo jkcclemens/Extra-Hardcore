@@ -58,6 +58,7 @@ function getFollower() {
 }
 
 function checkFollower() {
+  updateCarryWeight(Type.FOLLOWER);
   var icon = $('#follower_icon');
   var fInd = getFollowerIndex();
   var f = getFollower();
