@@ -1,3 +1,8 @@
+var Type = {
+  PLAYER: "player",
+  FOLLOWER: "follower"
+}
+
 function carryWeight(lvl, end, strength, armor) {
   var c = (lvl + 100) * ((766388 * Math.log(end)) + (383194 * Math.log(strength)) + 184269);
   c /= 5000000;
@@ -6,12 +11,18 @@ function carryWeight(lvl, end, strength, armor) {
   return Math.round(c - w);
 }
 
-function getStat(stat) {
-  return parseInt($('#' + stat).val());
+function getPlayerStat(stat) {
+  return getStat(Type.PLAYER, stat);
 }
 
 function getFollowerStat(stat) {
-  return parseInt($('#follower_' + stat).val());
+  return getStat(Type.FOLLOWER, stat);
+}
+
+function getStat(type, stat) {
+  var prepend = '';
+  if (type == Type.FOLLOWER) prepend = 'follower_';
+  return parseInt($('#' + prepend + stat).val());
 }
 
 function followerIndex(lvl, cha, per, lck) {
@@ -27,10 +38,10 @@ function noneAreNaN(arr) {
 }
 
 function getFollowerIndex() {
-  var level = getStat('level');
-  var cha = getStat('charisma');
-  var per = getStat('perception');
-  var lck = getStat('luck');
+  var level = getPlayerStat('level');
+  var cha = getPlayerStat('charisma');
+  var per = getPlayerStat('perception');
+  var lck = getPlayerStat('luck');
   if (!noneAreNaN([level, cha, per, lck])) {
     return NaN;
   }
@@ -200,49 +211,49 @@ $(function() {
   processInformation();
 });
 
-function getCurrencyWeight() {
-  return (getCapsWeight() + getBillsWeight() + getCoinsWeight()).toFixed(2);
+function getCurrencyWeight(type) {
+  return (getCapsWeight(type) + getBillsWeight(type) + getCoinsWeight(type)).toFixed(2);
 }
 
-function getBillsWeight() {
-  var bills = getStat('bills');
+function getBillsWeight(type) {
+  var bills = getStat(type, 'bills');
   if (isNaN(bills)) {
     return 0;
   }
   return bills / 500;
 }
 
-function getCoinsWeight() {
-  var coins = getStat('coins');
+function getCoinsWeight(type) {
+  var coins = getStat(type, 'coins');
   if (isNaN(coins)) {
     return 0;
   }
   return coins * (13 / 1000);
 }
 
-function getCapsWeight() {
-  var caps = getStat("bottle_caps");
+function getCapsWeight(type) {
+  var caps = getStat(type, 'bottle_caps');
   if (isNaN(caps)) {
     return 0;
   }
   return caps / 200;
 }
 
-function updateCarryWeight() {
-  var end = getStat('endurance');
-  var str = getStat('strength');
-  var level = getStat('level');
-  var armorWeight = getStat('armor_weight');
+function updateCarryWeight(type) {
+  var end = getStat(type, 'endurance');
+  var str = getStat(type, 'strength');
+  var level = getStat(Type.PLAYER, 'level');
+  var armorWeight = getStat(type, 'armor_weight');
   if (isNaN(armorWeight)) {
     armorWeight = 0;
   }
-  var maxCarryWeight = $('#max_carry_weight');
+  var maxCarryWeight = $('#' + (type == Type.FOLLOWER ? 'follower_' : '') + 'max_carry_weight');
   if (!noneAreNaN([end, str, level, armorWeight])) {
     maxCarryWeight.text('0');
     return;
   }
   var oldText = maxCarryWeight.text();
-  var newText = carryWeight(level, end, str, armorWeight) - getCurrencyWeight();
+  var newText = carryWeight(level, end, str, armorWeight) - getCurrencyWeight(type);
   maxCarryWeight.text(newText);
   if (oldText != newText) {
     maxCarryWeight.transition({
@@ -287,5 +298,6 @@ function loadData(data) {
 
 function processInformation() {
   checkFollower();
-  updateCarryWeight();
+  updateCarryWeight(Type.PLAYER);
+  updateCarryWeight(Type.FOLLOWER);
 }

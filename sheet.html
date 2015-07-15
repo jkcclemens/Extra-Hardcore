@@ -31,21 +31,31 @@
     </div>
     <div class="ui right dividing rail">
       <div class="ui sticky">
-        <div class="ui statistics">
-          <div class="statistic">
-            <div id="max_carry_weight" class="value">
-              0
+        <div class="flex">
+          <div class="ui vertical statistics">
+            <div class="statistic">
+              <div id="max_carry_weight" class="value">
+                0
+              </div>
+              <div class="label">
+                Max carry weight
+              </div>
             </div>
-            <div class="label">
-              Max carry weight
+            <div class="statistic">
+              <div class="value">
+                <i id="follower_icon" class="ui black user icon"></i>
+              </div>
+              <div class="label">
+                Follower status
+              </div>
             </div>
-          </div>
-          <div class="statistic">
-            <div class="value">
-              <i id="follower_icon" class="ui black user icon"></i>
-            </div>
-            <div class="label">
-              Follower status
+            <div class="statistic">
+              <div id="follower_max_carry_weight" class="value">
+                0
+              </div>
+              <div class="label">
+                <abbr title="Follower max carry weight">FMCW</abbr>
+              </div>
             </div>
           </div>
         </div>
@@ -261,6 +271,38 @@
               </div> <!-- /Luck grid -->
           </div> <!-- /UI fluid form -->
         </div> <!-- /SPECIAL grid div -->
+      <h3 class="ui center aligned header">Inventory</h2>
+      <div class="grid-parent">
+        <div class="ui fluid form">
+          <h4 class="ui center aligned header">Currency</h3>
+          <div class="three fields">
+            <div class="grid-33">
+              <div class="field">
+                <label>Bottle caps</label>
+                <div class="ui input">
+                  <input type="number" min="0" id="follower_bottle_caps" placeholder="250"/>
+                </div>
+              </div>
+            </div>
+            <div class="grid-33">
+              <div class="field">
+                <label>NCR bills</label>
+                <div class="labeled input">
+                  <input type="number" min="0" id="follower_bills" placeholder="250"/>
+                </div>
+              </div>
+            </div>
+            <div class="grid-33">
+              <div class="field">
+                <label>Legion coins</label>
+                <div class="ui input">
+                  <input type="number" min="0" id="follower_coins" placeholder="250"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
