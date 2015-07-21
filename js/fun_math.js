@@ -197,14 +197,16 @@ function sumCoins() {
   var aurei = or(getPlayerStat('aurei'), 0);
   var denarii = or(getPlayerStat('denarii'), 0);
   var denariiMangled = or(getPlayerStat('denarii_mangled'), 0);
-  $('#coins').val(aurei + denarii + denariiMangled);
+  var sum = aurei + denarii + denariiMangled;
+  $('#coins').val(sum == 0 ? '' : sum);
 }
 
 function sumBills() {
   var hundreds = or(getPlayerStat('100_bills'), 0);
   var twenties = or(getPlayerStat('20_bills'), 0);
   var fives = or(getPlayerStat('5_bills'), 0);
-  $('#bills').val(hundreds + twenties + fives);
+  var sum = hundreds + twenties + fives;
+  $('#bills').val(sum == 0 ? '' : sum);
 }
 
 $(function() {
