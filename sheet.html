@@ -141,7 +141,26 @@
             <label>Armor weight</label>
             <input type="number" min="0" id="armor_weight" placeholder="25"/>
           </div>
-          <h3 class="ui center aligned header">Currency</h3>
+          <h3 id="currency_header" data-position="top center" class="ui center aligned header">Currency</h3>
+          <div class="ui fluid popup transition hidden">
+            <div class="ui center aligned header">Payment calculator</div>
+            <div class="grid-parent">
+              <div class="grid-33">
+                <div class="field">
+                  <label>Cost in caps</label>
+                  <input type="number" min="0" id="cost" placeholder="250"/>
+                </div>
+                <div class="field">
+                  <div class="ui checkbox">
+                    <input id="payment_use_caps_first" type="checkbox"/>
+                    <label>Use caps before others</label>
+                  </div>
+                </div>
+              </div>
+              <div id="payment_currencies" class="grid-66">
+              </div>
+            </div>
+          </div>
           <div class="three fields">
             <div class="grid-33">
               <div class="field">

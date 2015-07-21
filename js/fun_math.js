@@ -15,29 +15,76 @@ var Currency = {
 
 function math(base, currency_worth, currency_amount) {
   var old_amount = currency_amount;
-  while (base > currency_worth && currency_amount > 0) {
+  while (base >= currency_worth && currency_amount > 0) {
     base -= currency_worth;
     currency_amount -= 1;
   }
   return [base, currency_amount, old_amount - currency_amount];
 }
 
-function pay(cost) {
-  var ncrFives = getStat('fives');
-  var ncrTwenties = getStat('twenties');
-  var ncrHundreds = getStat('hundreds');
-  var legDenariiMangled = getStat('denarii_mangled');
-  var legDenarii = getStat('denarii');
-  var legAurei = getStat('aurei')
+function pay(cost, useCaps) {
+  if (useCaps == undefined) {
+    useCaps = false;
+  }
+  var ncrFives = or(getPlayerStat('5_bills'), 0);
+  var ncrTwenties = or(getPlayerStat('20_bills'), 0);
+  var ncrHundreds = or(getPlayerStat('100_bills'), 0);
+  var legDenariiMangled = or(getPlayerStat('denarii_mangled'), 0);
+  var legDenarii = or(getPlayerStat('denarii'), 0);
+  var legAurei = or(getPlayerStat('aurei'), 0);
+  var caps = or(getPlayerStat('bottle_caps'), 0);
+  useCaps &= caps != 0;
+  if (useCaps) {
+    cost -= caps;
+    addToCost = caps;
+  }
   var needed = {};
   [cost, unused, needed.aurei] = math(cost, 100, legAurei);
-  [cost, unused, needed.hundreds] = math(cost, 40, hundreds);
+  [cost, unused, needed.hundreds] = math(cost, 40, ncrHundreds);
   [cost, unused, needed.twenties] = math(cost, 8, ncrTwenties);
   [cost, unused, needed.denarii] = math(cost, 4, legDenarii);
   [cost, unused, needed.fives] = math(cost, 2, ncrFives);
   [cost, unused, needed.denariiMangled] = math(cost, 2, legDenariiMangled);
+  needed.caps = useCaps ? cost + addToCost : cost;
   return needed;
 } // TODO: Make math modal
+
+function clearPaymentCurrencies() {
+  $('#payment_currencies').empty();
+}
+
+function addPaymentCurrency(value, name) {
+  $('#payment_currencies').append('<div class="ui mini statistic"><div class="value">' + value + '</div><div class="label">' + name + '</div></div>');
+}
+
+function getCurrencyName(internal) {
+  switch (internal) {
+    case 'aurei':
+      return 'Legion Aurei';
+    case 'hundreds':
+      return 'NCR $100';
+    case 'twenties':
+      return 'NCR $20';
+    case 'denarii':
+      return 'Legion Denarii';
+    case 'fives':
+      return 'NCR $5';
+    case 'denariiMangled':
+      return 'Legion Denarii, mangled'
+    case 'caps':
+      return 'Caps';
+  }
+}
+
+function displayCost(cost, useCaps) {
+  clearPaymentCurrencies();
+  var needed = pay(cost, useCaps);
+  for (currency in needed) {
+    var amount = needed[currency];
+    if (amount == 0) continue;
+    addPaymentCurrency(amount, getCurrencyName(currency));
+  }
+}
 
 function carryWeight(lvl, end, strength, armor) {
   var c = (lvl + 100) * ((766388 * Math.log(end)) + (383194 * Math.log(strength)) + 184269);
@@ -246,11 +293,15 @@ $(function() {
       saveRunner.cancel();
     }
   });
+  $('#currency_header').popup({'hoverable': true});
   $('#aurei, #denarii, #denarii_mangled').on('input', function() {
     sumCoins();
   });
   $('#100_bills, #20_bills, #5_bills').on('input', function() {
     sumBills();
+  });
+  $('#cost').on('input', function() {
+    displayCost(or(getPlayerStat('cost'), 0), $('#payment_use_caps_first').prop('checked'));
   });
   $('.ui.selection.dropdown').dropdown({
     action: 'activate',
