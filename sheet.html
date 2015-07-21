@@ -155,7 +155,7 @@
               </div>
             </div>
             <div class="grid-33">
-              <div class="field">
+              <div id="bills_input" data-position="bottom center" class="field">
                 <label>NCR bills</label>
                 <div class="ui corner labeled input">
                   <input type="number" min="0" id="bills" placeholder="250"/>
@@ -164,14 +164,54 @@
                   </div>
                 </div>
               </div>
+              <div class="ui fluid popup transition hidden">
+                <div class="field">
+                  <label>NCR $100</label>
+                  <div class="ui input">
+                    <input type="number" min="0" id="100_bills" placeholder="250"/>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>NCR $20</label>
+                  <div class="ui input">
+                    <input type="number" min="0" id="20_bills" placeholder="250"/>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>NCR $5</label>
+                  <div class="ui input">
+                    <input type="number" min="0" id="5_bills" placeholder="250"/>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="grid-33">
-              <div class="field">
+              <div id="coins_input" data-position="bottom center" class="field">
                 <label>Legion coins</label>
                 <div class="ui corner labeled input">
                   <input type="number" min="0" id="coins" placeholder="250"/>
                   <div class="ui corner label">
                     <i id="coins_help" class="help circle icon"></i>
+                  </div>
+                </div>
+              </div>
+              <div class="ui fluid popup transition hidden">
+                <div class="field">
+                  <label>Legion Aurei</label>
+                  <div class="ui input">
+                    <input type="number" min="0" id="aurei" placeholder="250"/>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Legion Denarii</label>
+                  <div class="ui input">
+                    <input type="number" min="0" id="denarii" placeholder="250"/>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Legion Denarii, mangled</label>
+                  <div class="ui input">
+                    <input type="number" min="0" id="denarii_mangled" placeholder="250"/>
                   </div>
                 </div>
               </div>

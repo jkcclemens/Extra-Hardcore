@@ -3,6 +3,42 @@ var Type = {
   FOLLOWER: "follower"
 }
 
+var Currency = {
+  CAP: 1,
+  NCR_5: 2,
+  NCR_20: 8,
+  NCR_100: 40,
+  DENARIUS_MANGLED: 2,
+  DENARIUS: 4,
+  AUREUS: 100
+};
+
+function math(base, currency_worth, currency_amount) {
+  var old_amount = currency_amount;
+  while (base > currency_worth && currency_amount > 0) {
+    base -= currency_worth;
+    currency_amount -= 1;
+  }
+  return [base, currency_amount, old_amount - currency_amount];
+}
+
+function pay(cost) {
+  var ncrFives = getStat('fives');
+  var ncrTwenties = getStat('twenties');
+  var ncrHundreds = getStat('hundreds');
+  var legDenariiMangled = getStat('denarii_mangled');
+  var legDenarii = getStat('denarii');
+  var legAurei = getStat('aurei')
+  var needed = {};
+  [cost, unused, needed.aurei] = math(cost, 100, legAurei);
+  [cost, unused, needed.hundreds] = math(cost, 40, hundreds);
+  [cost, unused, needed.twenties] = math(cost, 8, ncrTwenties);
+  [cost, unused, needed.denarii] = math(cost, 4, legDenarii);
+  [cost, unused, needed.fives] = math(cost, 2, ncrFives);
+  [cost, unused, needed.denariiMangled] = math(cost, 2, legDenariiMangled);
+  return needed;
+} // TODO: Make math modal
+
 function carryWeight(lvl, end, strength, armor) {
   var c = (lvl + 100) * ((766388 * Math.log(end)) + (383194 * Math.log(strength)) + 184269);
   c /= 5000000;
@@ -149,6 +185,28 @@ SaveRunner.prototype.cancel = function() {
 
 var saveRunner = new SaveRunner();
 
+function or(num, other) {
+  if (isNaN(num)) {
+    return other;
+  } else {
+    return num;
+  }
+}
+
+function sumCoins() {
+  var aurei = or(getPlayerStat('aurei'), 0);
+  var denarii = or(getPlayerStat('denarii'), 0);
+  var denariiMangled = or(getPlayerStat('denarii_mangled'), 0);
+  $('#coins').val(aurei + denarii + denariiMangled);
+}
+
+function sumBills() {
+  var hundreds = or(getPlayerStat('100_bills'), 0);
+  var twenties = or(getPlayerStat('20_bills'), 0);
+  var fives = or(getPlayerStat('5_bills'), 0);
+  $('#bills').val(hundreds + twenties + fives);
+}
+
 $(function() {
   $('input').on('input', function() {
     processInformation();
@@ -174,6 +232,8 @@ $(function() {
   $('#save_toggle').popup({
     content: 'Toggles autosave, which occurs every three minutes when enabled.'
   });
+  $('#bills_input').popup({'hoverable': true});
+  $('#coins_input').popup({'hoverable': true});
   $('#save_toggle').checkbox({
     onChecked: function() {
       saveRunner.run();
@@ -181,6 +241,12 @@ $(function() {
     onUnchecked: function() {
       saveRunner.cancel();
     }
+  });
+  $('#aurei, #denarii, #denarii_mangled').on('input', function() {
+    sumCoins();
+  });
+  $('#100_bills, #20_bills, #5_bills').on('input', function() {
+    sumBills();
   });
   $('.ui.selection.dropdown').dropdown({
     action: 'activate',
@@ -295,6 +361,8 @@ function loadData(data) {
     $('#save_toggle').checkbox('check');
   }
   processInformation();
+  sumCoins();
+  sumBills();
 }
 
 function processInformation() {
