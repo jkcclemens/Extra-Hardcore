@@ -199,6 +199,7 @@ function sumCoins() {
   var denariiMangled = or(getPlayerStat('denarii_mangled'), 0);
   var sum = aurei + denarii + denariiMangled;
   $('#coins').val(sum == 0 ? '' : sum);
+  updateCarryWeight(Type.PLAYER);
 }
 
 function sumBills() {
@@ -207,6 +208,7 @@ function sumBills() {
   var fives = or(getPlayerStat('5_bills'), 0);
   var sum = hundreds + twenties + fives;
   $('#bills').val(sum == 0 ? '' : sum);
+  updateCarryWeight(Type.PLAYER);
 }
 
 $(function() {
