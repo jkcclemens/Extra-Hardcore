@@ -415,6 +415,9 @@ function loadData(data) {
   if (fields.hasOwnProperty('internal_save_toggle') && fields['internal_save_toggle'] == 'on') {
     $('#save_toggle').checkbox('check');
   }
+  if (fields.hasOwnProperty('payment_use_caps_first') && fields['payment_use_caps_first'] == 'on') {
+    $('#payment_use_caps_first_parent').checkbox('check');
+  }
   processInformation();
   sumCoins();
   sumBills();
