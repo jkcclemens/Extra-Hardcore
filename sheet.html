@@ -141,7 +141,14 @@
             <label>Armor weight</label>
             <input type="number" min="0" id="armor_weight" placeholder="25"/>
           </div>
-          <h3 id="currency_header" data-position="top center" class="ui center aligned header">Currency</h3>
+          <h3 id="currency_header" data-position="top center" class="ui center aligned header">
+            <div class="content">
+              Currency
+              <div class="sub header">
+                <span id="currency_total_caps">0 caps</span> / <span id="currency_total_weight">0 lbs</span>
+              </div>
+            </div>
+          </h3>
           <div class="ui fluid popup transition hidden">
             <div class="ui center aligned header">Payment calculator</div>
             <div class="grid-parent">
@@ -164,7 +171,21 @@
           <div class="three fields">
             <div class="grid-33">
               <div class="field">
-                <label>Bottle caps</label>
+                <label>
+                  <div class="ui currency text shape">
+                    <div class="sides">
+                      <div class="ui active side">
+                        Bottle caps
+                      </div>
+                      <div class="ui value side">
+                        0 caps
+                      </div>
+                      <div class="ui weight side">
+                        0 lbs
+                      </div>
+                    </div>
+                  </div>
+                </label>
                 <div class="ui corner labeled input">
                   <input type="number" min="0" id="bottle_caps" placeholder="250"/>
                   <div class="ui corner label">
@@ -174,63 +195,109 @@
               </div>
             </div>
             <div class="grid-33">
-              <div id="bills_input" data-position="bottom center" class="field">
-                <label>NCR bills</label>
-                <div class="ui corner labeled input">
+              <div class="field">
+                <label>
+                  <div class="ui currency text shape">
+                    <div class="sides">
+                      <div class="ui active side">
+                        NCR bills
+                      </div>
+                      <div class="ui value side">
+                        0 caps
+                      </div>
+                      <div class="ui weight side">
+                        0 lbs
+                      </div>
+                    </div>
+                  </div>
+                </label>
+                <div id="bills_input" data-position="bottom center" class="ui corner labeled input">
                   <input type="number" min="0" id="bills" placeholder="250" readonly/>
                   <div class="ui corner label">
                     <i id="bills_help" class="help circle icon"></i>
                   </div>
                 </div>
-              </div>
-              <div class="ui fluid popup transition hidden">
-                <div class="field">
-                  <label>NCR $100</label>
-                  <div class="ui input">
-                    <input type="number" min="0" id="100_bills" placeholder="250"/>
+                <div class="ui fluid popup transition hidden">
+                  <div class="field">
+                    <label>NCR $100</label>
+                    <div class="ui right labeled input">
+                      <input type="number" min="0" id="100_bills" placeholder="250"/>
+                      <div class="ui value label">
+                        0
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="field">
-                  <label>NCR $20</label>
-                  <div class="ui input">
-                    <input type="number" min="0" id="20_bills" placeholder="250"/>
+                  <div class="field">
+                    <label>NCR $20</label>
+                    <div class="ui right labeled input">
+                      <input type="number" min="0" id="20_bills" placeholder="250"/>
+                      <div class="ui value label">
+                        0
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="field">
-                  <label>NCR $5</label>
-                  <div class="ui input">
-                    <input type="number" min="0" id="5_bills" placeholder="250"/>
+                  <div class="field">
+                    <label>NCR $5</label>
+                    <div class="ui right labeled input">
+                      <input type="number" min="0" id="5_bills" placeholder="250"/>
+                      <div class="ui value label">
+                        0
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="grid-33">
-              <div id="coins_input" data-position="bottom center" class="field">
-                <label>Legion coins</label>
-                <div class="ui corner labeled input">
+              <div class="field">
+                <label>
+                  <div class="ui currency text shape">
+                    <div class="sides">
+                      <div class="ui active side">
+                        Legion coins
+                      </div>
+                      <div class="ui value side">
+                        0 caps
+                      </div>
+                      <div class="ui weight side">
+                        0 lbs
+                      </div>
+                    </div>
+                  </div>
+                </label>
+                <div id="coins_input" data-position="bottom center" class="ui corner labeled input">
                   <input type="number" min="0" id="coins" placeholder="250" readonly/>
                   <div class="ui corner label">
                     <i id="coins_help" class="help circle icon"></i>
                   </div>
                 </div>
-              </div>
-              <div class="ui fluid popup transition hidden">
-                <div class="field">
-                  <label>Legion Aurei</label>
-                  <div class="ui input">
-                    <input type="number" min="0" id="aurei" placeholder="250"/>
+                <div class="ui fluid popup transition hidden">
+                  <div class="field">
+                    <label>Legion Aurei</label>
+                    <div class="ui right labeled input">
+                      <input type="number" min="0" id="aurei" placeholder="250"/>
+                      <div class="ui value label">
+                        0
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="field">
-                  <label>Legion Denarii</label>
-                  <div class="ui input">
-                    <input type="number" min="0" id="denarii" placeholder="250"/>
+                  <div class="field">
+                    <label>Legion Denarii</label>
+                    <div class="ui right labeled input">
+                      <input type="number" min="0" id="denarii" placeholder="250"/>
+                      <div class="ui value label">
+                        0
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div class="field">
-                  <label>Legion Denarii, mangled</label>
-                  <div class="ui input">
-                    <input type="number" min="0" id="denarii_mangled" placeholder="250"/>
+                  <div class="field">
+                    <label>Legion Denarii, mangled</label>
+                    <div class="ui right labeled input">
+                      <input type="number" min="0" id="denarii_mangled" placeholder="250"/>
+                      <div class="ui value label">
+                        0
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -368,6 +435,7 @@
 <script src="js/jquery.min.js"></script>
 <script src="js/semantic.min.js"></script>
 <script src="js/js.cookie.js"></script>
+<script src="js/jsnumberformatter.js"></script>
 <script src="js/fun_math.js"></script>
 </body>
 </html>

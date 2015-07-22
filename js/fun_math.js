@@ -1,7 +1,40 @@
 var Type = {
   PLAYER: "player",
   FOLLOWER: "follower"
-}
+};
+
+var CurrencyType = {
+  CAPS: {
+    id: 'bottle_caps',
+    getWeight: getCapsWeight,
+    getValue: function() {
+      return getPlayerStatZero('bottle_caps');
+    }
+  },
+  BILLS: {
+    id: 'bills',
+    getWeight: getBillsWeight
+  },
+  COINS: {
+    id: 'coins',
+    getWeight: getCoinsWeight
+  }
+};
+
+$.each(CurrencyType, function (name, content) {
+  content.getField = function() {
+    return $('#' + content.id);
+  };
+  if (!content.hasOwnProperty('getValue')) {
+    content.getValue = function() {
+      var value = 0;
+      this.getField().parent().siblings('.popup').find('.value.label').each(function (i, element) {
+        value += numberFromFormat($(element).text());
+      });
+      return value;
+    };
+  }
+});
 
 var Currency = {
   CAP: 1,
@@ -26,13 +59,13 @@ function pay(cost, useCaps) {
   if (useCaps == undefined) {
     useCaps = false;
   }
-  var ncrFives = or(getPlayerStat('5_bills'), 0);
-  var ncrTwenties = or(getPlayerStat('20_bills'), 0);
-  var ncrHundreds = or(getPlayerStat('100_bills'), 0);
-  var legDenariiMangled = or(getPlayerStat('denarii_mangled'), 0);
-  var legDenarii = or(getPlayerStat('denarii'), 0);
-  var legAurei = or(getPlayerStat('aurei'), 0);
-  var caps = or(getPlayerStat('bottle_caps'), 0);
+  var ncrFives = getPlayerStatZero('5_bills');
+  var ncrTwenties = getPlayerStatZero('20_bills');
+  var ncrHundreds = getPlayerStatZero('100_bills');
+  var legDenariiMangled = getPlayerStatZero('denarii_mangled');
+  var legDenarii = getPlayerStatZero('denarii');
+  var legAurei = getPlayerStatZero('aurei');
+  var caps = getPlayerStatZero('bottle_caps');
   useCaps &= caps != 0;
   if (useCaps) {
     cost -= caps;
@@ -103,6 +136,7 @@ function getFollowerStat(stat) {
 }
 
 function getStat(type, stat) {
+  if (type == undefined) type = Type.PLAYER;
   var prepend = '';
   if (type == Type.FOLLOWER) prepend = 'follower_';
   return parseInt($('#' + prepend + stat).val());
@@ -240,109 +274,91 @@ function or(num, other) {
   }
 }
 
+function getPlayerStatZero(name) {
+  return or(getPlayerStat(name), 0);
+}
+
 function sumCoins() {
-  var aurei = or(getPlayerStat('aurei'), 0);
-  var denarii = or(getPlayerStat('denarii'), 0);
-  var denariiMangled = or(getPlayerStat('denarii_mangled'), 0);
+  var aurei = getPlayerStatZero('aurei');
+  var denarii = getPlayerStatZero('denarii');
+  var denariiMangled = getPlayerStatZero('denarii_mangled');
   var sum = aurei + denarii + denariiMangled;
   $('#coins').val(sum == 0 ? '' : sum);
   updateCarryWeight(Type.PLAYER);
 }
 
 function sumBills() {
-  var hundreds = or(getPlayerStat('100_bills'), 0);
-  var twenties = or(getPlayerStat('20_bills'), 0);
-  var fives = or(getPlayerStat('5_bills'), 0);
+  var hundreds = getPlayerStatZero('100_bills');
+  var twenties = getPlayerStatZero('20_bills');
+  var fives = getPlayerStatZero('5_bills');
   var sum = hundreds + twenties + fives;
   $('#bills').val(sum == 0 ? '' : sum);
   updateCarryWeight(Type.PLAYER);
 }
 
-$(function() {
-  $('input').on('input', function() {
-    processInformation();
-  });
-  $('#save_button').click(saveButton);
-  $('#load_button').click(function() {
-    loadData(Cookies.getJSON('saved_data'));
-    cycleButton('load_button', 'Done');
-  });
-  $('.ui.sticky').sticky({
-    context: '.grid-70'
-  });
-  $('#caps_help').popup({
-    html: '<p>The weight of your currency is subtracted from your max carry weight in order to show the amount other items can use.</p><p>One cap is one two-hundredth of a pound.</p>'
-  });
-  $('#bills_help').popup({
-    html: '<p>The weight of your currency is subtracted from your max carry weight in order to show the amount other items can use.</p><p>One bill is one five-hundredth of a pound.</p>'
-  });
-  $('#coins_help').popup({
-    html: '<p>The weight of your currency is subtracted from your max carry weight in order to show the amount other items can use.</p><p>One coin is thirteen thousandths of a pound.</p>'
-  });
-  $('#save_button').popup({'hoverable': true});
-  $('#save_toggle').popup({
-    content: 'Toggles autosave, which occurs every three minutes when enabled.'
-  });
-  $('#bills_input').popup({'hoverable': true});
-  $('#coins_input').popup({'hoverable': true});
-  $('#save_toggle').checkbox({
-    onChecked: function() {
-      saveRunner.run();
-    },
-    onUnchecked: function() {
-      saveRunner.cancel();
+function displayNormalCost() {
+  displayCost(getPlayerStatZero('cost'), $('#payment_use_caps_first').prop('checked'));
+}
+
+function setCurrencyAmountValue(obj, multiplier) {
+    var multiplier = 0;
+    switch ($(obj).prop('id')) {
+      case '100_bills':
+        multiplier = 40;
+        break;
+      case '20_bills':
+        multiplier = 8;
+        break;
+      case '5_bills':
+        multiplier = 2;
+        break;
+      case 'aurei':
+        multiplier = 100;
+        break;
+      case 'denarii':
+        multiplier = 4;
+        break;
+      case 'denarii_mangled':
+        multiplier = 2;
+        break;
     }
-  });
-  $('#payment_use_caps_first_parent').checkbox({
-    onChecked: function() {
-      displayCost(or(getPlayerStat('cost'), 0), $('#payment_use_caps_first').prop('checked'));
-    },
-    onUnchecked: function() {
-      displayCost(or(getPlayerStat('cost'), 0), $('#payment_use_caps_first').prop('checked'));
+    var amt = parseInt($(obj).val());
+    if (isNaN(amt)) {
+      amt = 0;
     }
+    amt *= multiplier;
+    amt = formatNumber(amt);
+    $(obj).siblings('.value').text(amt);
+}
+
+function formatNumber(number) {
+  if (number == 0) {
+    return 0;
+  }
+ var options = new JsNumberFormatter.formatNumberOptions();
+ var numberStr = JsNumberFormatter.formatNumber(number, options, false);
+ return numberStr;
+}
+
+function numberFromFormat(format) {
+  var options = new JsNumberFormatter.parseNumberSimpleOptions();
+  var number = JsNumberFormatter.parseNumberSimple(format, options, false);
+  return number;
+}
+
+function updateCurrencyAmountValues() {
+  var currencies = ['100_bills', '20_bills', '5_bills', 'aurei', 'denarii', 'denarii_mangled'];
+  $.each(currencies, function(i, currency) {
+    setCurrencyAmountValue($('#' + currency));
   });
-  $('#currency_header').popup({'hoverable': true});
-  $('#aurei, #denarii, #denarii_mangled').on('input', function() {
-    sumCoins();
-  });
-  $('#100_bills, #20_bills, #5_bills').on('input', function() {
-    sumBills();
-  });
-  $('#cost').on('input', function() {
-    displayCost(or(getPlayerStat('cost'), 0), $('#payment_use_caps_first').prop('checked'));
-  });
-  $('.ui.selection.dropdown').dropdown({
-    action: 'activate',
-    onChange: function(value, text, $selectedItem) {
-      if (!followers.hasOwnProperty(value)) return;
-      $('#follower_header').popup({
-        onVisible: function() {
-          $('#follower_dismiss_button').transition('flash');
-        }
-      });
-      $('#follower_header').popup('show');
-      setTimeout(function() {
-        $('#follower_header').popup('hide');
-        $('#follower_header').popup({
-          'onVisible': undefined,
-          'hoverable': true
-        });
-      }, 1500);
-      $('#follower_special').form('set values', followers[value]);
-      checkFollower();
-    }
-  });
-  $('#follower_dismiss_button').click(function() {
-    $('#follower_header').popup('destroy');
-    $('#follower_dropdown').dropdown('clear');
-    $('#follower_special').form('set values', followers['none']);
-    checkFollower();
-  });
-  processInformation();
-});
+}
+
+function computeCurrencyWeight(type) {
+  return getCapsWeight(type) + getBillsWeight(type) + getCoinsWeight(type);
+}
 
 function getCurrencyWeight(type) {
-  return (getCapsWeight(type) + getBillsWeight(type) + getCoinsWeight(type)).toFixed(2);
+  return computeCurrencyWeight(type).toFixed(2);
 }
 
 function getBillsWeight(type) {
@@ -405,6 +421,41 @@ function saveData() {
   return data;
 }
 
+function getTotalValue() {
+  var value = 0;
+  $.each(CurrencyType, function (name, content) {
+    value += content.getValue();
+  });
+  return value;
+}
+
+function updateCurrencyLabel(currencyType) {
+  parent = currencyType.getField();
+  var value = formatNumber(currencyType.getValue());
+  var shape = parent.parent().siblings('label').children('.shape');
+  shape.find('.value').text(value + (value == 1 ? ' cap' : ' caps'));
+  var weight = formatNumber(currencyType.getWeight());
+  shape.find('.weight').text(weight + (weight == 1 ? ' lb' : ' lbs'));
+}
+
+function updateCurrencyLabels() {
+  updateCurrencyLabel(CurrencyType.BILLS);
+  updateCurrencyLabel(CurrencyType.CAPS);
+  updateCurrencyLabel(CurrencyType.COINS);
+  var totalValue = formatNumber(getTotalValue());
+  $('#currency_total_caps').text(totalValue + (totalValue == 1 ? ' cap' : ' caps'));
+  var totalWeight = formatNumber(computeCurrencyWeight(Type.PLAYER));
+  $('#currency_total_weight').text(totalWeight + (totalWeight == 1 ? ' lb' : ' lbs'));
+}
+
+function prepare() {
+  sumCoins();
+  sumBills();
+  updateCurrencyAmountValues();
+  updateCurrencyLabels();
+  processInformation();
+}
+
 function loadData(data) {
   if (data == undefined) return;
   saveRunner.cancel();
@@ -426,9 +477,7 @@ function loadData(data) {
   if (fields.hasOwnProperty('payment_use_caps_first') && fields['payment_use_caps_first'] == 'on') {
     $('#payment_use_caps_first_parent').checkbox('check');
   }
-  processInformation();
-  sumCoins();
-  sumBills();
+  prepare();
 }
 
 function processInformation() {
@@ -436,3 +485,84 @@ function processInformation() {
   updateCarryWeight(Type.PLAYER);
   updateCarryWeight(Type.FOLLOWER);
 }
+
+$(function() {
+  $('input').on('input', function() {
+    processInformation();
+  });
+  $('#save_button').click(saveButton);
+  $('#load_button').click(function() {
+    loadData(Cookies.getJSON('saved_data'));
+    cycleButton('load_button', 'Done');
+  });
+  $('.ui.sticky').sticky({
+    context: '.grid-70'
+  });
+  $('#caps_help').popup({
+    html: '<p>The weight of your currency is subtracted from your max carry weight in order to show the amount other items can use.</p><p>One cap is one two-hundredth of a pound.</p>'
+  });
+  $('#bills_help').popup({
+    html: '<p>The weight of your currency is subtracted from your max carry weight in order to show the amount other items can use.</p><p>One bill is one five-hundredth of a pound.</p>'
+  });
+  $('#coins_help').popup({
+    html: '<p>The weight of your currency is subtracted from your max carry weight in order to show the amount other items can use.</p><p>One coin is thirteen thousandths of a pound.</p>'
+  });
+  $('#save_button').popup({'hoverable': true});
+  $('#save_toggle').popup({
+    content: 'Toggles autosave, which occurs every three minutes when enabled.'
+  });
+  $('#bills_input').popup({'hoverable': true});
+  $('#coins_input').popup({'hoverable': true});
+  $('#save_toggle').checkbox({
+    onChecked: function() {
+      saveRunner.run();
+    },
+    onUnchecked: function() {
+      saveRunner.cancel();
+    }
+  });
+  $('#payment_use_caps_first_parent').checkbox({
+    onChecked: displayNormalCost,
+    onUnchecked: displayNormalCost
+  });
+  $('#currency_header').popup({'hoverable': true});
+  $('#aurei, #denarii, #denarii_mangled').on('input', sumCoins);
+  $('#100_bills, #20_bills, #5_bills').on('input', sumBills);
+  $('#100_bills, #20_bills, #5_bills, #aurei, #denarii, #denarii_mangled').on('input', function() {
+    setCurrencyAmountValue(this);
+  });
+  $('#100_bills, #20_bills, #5_bills, #aurei, #denarii, #denarii_mangled, #bottle_caps').on('input', updateCurrencyLabels);
+  $('#cost').on('input', displayNormalCost);
+  $('.ui.selection.dropdown').dropdown({
+    action: 'activate',
+    onChange: function(value, text, $selectedItem) {
+      if (!followers.hasOwnProperty(value)) return;
+      $('#follower_header').popup({
+        onVisible: function() {
+          $('#follower_dismiss_button').transition('flash');
+        }
+      });
+      $('#follower_header').popup('show');
+      setTimeout(function() {
+        $('#follower_header').popup('hide');
+        $('#follower_header').popup({
+          'onVisible': undefined,
+          'hoverable': true
+        });
+      }, 1500);
+      $('#follower_special').form('set values', followers[value]);
+      checkFollower();
+    }
+  });
+  $('#follower_dismiss_button').click(function() {
+    $('#follower_header').popup('destroy');
+    $('#follower_dropdown').dropdown('clear');
+    $('#follower_special').form('set values', followers['none']);
+    checkFollower();
+  });
+  $('.currency.text.shape').shape();
+  $('.currency.text.shape').click(function() {
+    $(this).shape('flip down');
+  });
+  prepare();
+});
