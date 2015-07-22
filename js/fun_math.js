@@ -590,5 +590,14 @@ $(function() {
   $('.currency.text.shape').click(function() {
     $(this).shape('flip down');
   });
+  $('#process_button').click(function() {
+    var needed = pay(getPlayerStatZero('cost'), $('#payment_use_caps_first').prop('checked'));
+    $.each(needed, function (name, amount) {
+      var amt = getPlayerStatZero(name);
+      $('#' + name).val(amt - amount);
+      prepare();
+      displayNormalCost();
+    });
+  });
   prepare();
 });
