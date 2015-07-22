@@ -140,7 +140,7 @@ function pay(cost, useCaps) {
   var sorted = Currency.sorted();
   for (var i = 0; i < sorted.length; i++) {
     var currency = sorted[i];
-    if (currency == Currency.CAPS) continue;
+    if (currency == Currency.CAP) continue;
     [cost, unused, needed[currency.id]] = math(cost, currency.value, getPlayerStatZero(currency.id));
   }
   needed.bottle_caps = useCaps ? cost + addToCost : cost;
