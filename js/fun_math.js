@@ -293,6 +293,14 @@ $(function() {
       saveRunner.cancel();
     }
   });
+  $('#payment_use_caps_first_parent').checkbox({
+    onChecked: function() {
+      displayCost();
+    },
+    onUnchecked: function() {
+      displayCost();
+    }
+  });
   $('#currency_header').popup({'hoverable': true});
   $('#aurei, #denarii, #denarii_mangled').on('input', function() {
     sumCoins();
