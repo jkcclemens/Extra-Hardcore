@@ -295,10 +295,10 @@ $(function() {
   });
   $('#payment_use_caps_first_parent').checkbox({
     onChecked: function() {
-      displayCost();
+      displayCost(or(getPlayerStat('cost'), 0), $('#payment_use_caps_first').prop('checked'));
     },
     onUnchecked: function() {
-      displayCost();
+      displayCost(or(getPlayerStat('cost'), 0), $('#payment_use_caps_first').prop('checked'));
     }
   });
   $('#currency_header').popup({'hoverable': true});
