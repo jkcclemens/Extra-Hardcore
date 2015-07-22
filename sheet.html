@@ -151,20 +151,29 @@
           </h3>
           <div class="ui fluid popup transition hidden">
             <div class="ui center aligned header">Payment calculator</div>
-            <div class="grid-parent">
-              <div class="grid-33">
-                <div class="field">
-                  <label>Cost in caps</label>
-                  <input type="number" min="0" id="cost" placeholder="250"/>
-                </div>
-                <div class="field">
-                  <div id="payment_use_caps_first_parent" class="ui toggle checkbox">
-                    <input id="payment_use_caps_first" type="checkbox"/>
-                    <label>Use caps before others</label>
+            <div class="ui grid">
+              <div class="two column row">
+                <div class="five wide column">
+                  <div class="field">
+                    <label>Cost in caps</label>
+                    <input type="number" min="0" id="cost" placeholder="250"/>
+                  </div>
+                  <div class="field">
+                    <div id="payment_use_caps_first_parent" class="ui toggle checkbox">
+                      <input id="payment_use_caps_first" type="checkbox"/>
+                      <label>Use caps before others</label>
+                    </div>
                   </div>
                 </div>
+                <div id="payment_currencies" class="nine wide column" style="margin: auto; text-align: center;">
+                </div>
               </div>
-              <div id="payment_currencies" class="grid-66">
+              <div class="row">
+                <div class="column">
+                  <div class="ui blue fluid button">
+                    Process
+                  </div>
+                </div>
               </div>
             </div>
           </div>

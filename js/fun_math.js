@@ -37,14 +37,85 @@ $.each(CurrencyType, function (name, content) {
 });
 
 var Currency = {
-  CAP: 1,
-  NCR_5: 2,
-  NCR_20: 8,
-  NCR_100: 40,
-  DENARIUS_MANGLED: 2,
-  DENARIUS: 4,
-  AUREUS: 100
+  CAP: {
+    name: 'Cap',
+    plural: 'Caps',
+    value: 1,
+    id: 'bottle_caps'
+  },
+  NCR_5: {
+    name: 'NCR $5',
+    plural: 'NCR $5',
+    value: 2,
+    id: '5_bills'
+  },
+  NCR_20: {
+    name: 'NCR $20',
+    plural: 'NCR $20',
+    value: 8,
+    id: '20_bills'
+  },
+  NCR_100: {
+    name: 'NCR $100',
+    plural: 'NCR $100',
+    value: 40,
+    id: '100_bills'
+  },
+  DENARIUS_MANGLED: {
+    name: 'Denarius, mangled',
+    plural: 'Denarii, mangled',
+    value: 2,
+    id: 'denarii_mangled'
+  },
+  DENARIUS: {
+    name: 'Denarius',
+    plural: 'Denarii',
+    value: 4,
+    id: 'denarii'
+  },
+  AUREUS: {
+    name: 'Aureus',
+    plural: 'Aurei',
+    value: 100,
+    id: 'aurei'
+  },
+  getByName: function(name) {
+    return this.getByProperty('name', name);
+  },
+  getByID: function(id) {
+    return this.getByProperty('id', id);
+  },
+  getByProperty: function (property, value) {
+    var values = this.values();
+    for (var i = 0; i < values.length; i++) {
+      var v = values[i];
+      if (v[property] == value) return v;
+    }
+    return undefined;
+  },
+  sorted: function() {
+    return this.values().sort(function (a, b) {
+      if (a.value == b.value) return 0;
+      return a.value > b.value ? -1 : 1;
+    });
+  },
+  values: function() {
+    var values = [];
+    for (property in Currency) {
+      if (!Currency.hasOwnProperty(property)) continue;
+      if (property != property.toUpperCase()) continue;
+      values.push(Currency[property]);
+    }
+    return values;
+  }
 };
+
+$.each(Currency.values(), function (name, content) {
+  content.getName = function (amount) {
+    if (amount == 1) return content.name;
+    return content.plural;
+  }
+});
 
 function math(base, currency_worth, currency_amount) {
   var old_amount = currency_amount;
@@ -59,12 +130,6 @@ function pay(cost, useCaps) {
   if (useCaps == undefined) {
     useCaps = false;
   }
-  var ncrFives = getPlayerStatZero('5_bills');
-  var ncrTwenties = getPlayerStatZero('20_bills');
-  var ncrHundreds = getPlayerStatZero('100_bills');
-  var legDenariiMangled = getPlayerStatZero('denarii_mangled');
-  var legDenarii = getPlayerStatZero('denarii');
-  var legAurei = getPlayerStatZero('aurei');
   var caps = getPlayerStatZero('bottle_caps');
   useCaps &= caps != 0;
   if (useCaps) {
@@ -72,51 +137,32 @@ function pay(cost, useCaps) {
     addToCost = caps;
   }
   var needed = {};
-  [cost, unused, needed.aurei] = math(cost, 100, legAurei);
-  [cost, unused, needed.hundreds] = math(cost, 40, ncrHundreds);
-  [cost, unused, needed.twenties] = math(cost, 8, ncrTwenties);
-  [cost, unused, needed.denarii] = math(cost, 4, legDenarii);
-  [cost, unused, needed.fives] = math(cost, 2, ncrFives);
-  [cost, unused, needed.denariiMangled] = math(cost, 2, legDenariiMangled);
-  needed.caps = useCaps ? cost + addToCost : cost;
+  var sorted = Currency.sorted();
+  for (var i = 0; i < sorted.length; i++) {
+    var currency = sorted[i];
+    if (currency == Currency.CAPS) continue;
+    [cost, unused, needed[currency.id]] = math(cost, currency.value, getPlayerStatZero(currency.id));
+  }
+  needed.bottle_caps = useCaps ? cost + addToCost : cost;
   return needed;
-} // TODO: Make math modal
+}
 
 function clearPaymentCurrencies() {
   $('#payment_currencies').empty();
 }
 
 function addPaymentCurrency(value, name) {
-  $('#payment_currencies').append('<div class="ui mini statistic"><div class="value">' + value + '</div><div class="label">' + name + '</div></div>');
-}
-
-function getCurrencyName(internal) {
-  switch (internal) {
-    case 'aurei':
-      return 'Legion Aurei';
-    case 'hundreds':
-      return 'NCR $100';
-    case 'twenties':
-      return 'NCR $20';
-    case 'denarii':
-      return 'Legion Denarii';
-    case 'fives':
-      return 'NCR $5';
-    case 'denariiMangled':
-      return 'Legion Denarii, mangled'
-    case 'caps':
-      return 'Caps';
-  }
+  $('#payment_currencies').append('<div class="ui statistic"><div class="value">' + value + '</div><div class="label">' + name + '</div></div>');
 }
 
 function displayCost(cost, useCaps) {
   clearPaymentCurrencies();
   var needed = pay(cost, useCaps);
-  for (currency in needed) {
-    var amount = needed[currency];
-    if (amount == 0) continue;
-    addPaymentCurrency(amount, getCurrencyName(currency));
-  }
+  $.each(needed, function (name, amount) {
+    if (amount == 0) return;
+    var currency = Currency.getByID(name);
+    addPaymentCurrency(amount, currency.getName(amount));
+  });
 }
 
 function carryWeight(lvl, end, strength, armor) {
@@ -301,43 +347,24 @@ function displayNormalCost() {
 }
 
 function setCurrencyAmountValue(obj, multiplier) {
-    var multiplier = 0;
-    switch ($(obj).prop('id')) {
-      case '100_bills':
-        multiplier = 40;
-        break;
-      case '20_bills':
-        multiplier = 8;
-        break;
-      case '5_bills':
-        multiplier = 2;
-        break;
-      case 'aurei':
-        multiplier = 100;
-        break;
-      case 'denarii':
-        multiplier = 4;
-        break;
-      case 'denarii_mangled':
-        multiplier = 2;
-        break;
-    }
-    var amt = parseInt($(obj).val());
-    if (isNaN(amt)) {
-      amt = 0;
-    }
-    amt *= multiplier;
-    amt = formatNumber(amt);
-    $(obj).siblings('.value').text(amt);
+  obj = $(obj);
+  var id = obj.prop('id');
+  var currency = Currency.getByID(id);
+  if (currency == undefined) return;
+  var multiplier = currency.value;
+  var amt = or(parseInt(obj.val()), 0);
+  amt *= multiplier;
+  amt = formatNumber(amt);
+  obj.siblings('.value').text(amt);
 }
 
 function formatNumber(number) {
   if (number == 0) {
     return 0;
   }
- var options = new JsNumberFormatter.formatNumberOptions();
- var numberStr = JsNumberFormatter.formatNumber(number, options, false);
- return numberStr;
+  var options = new JsNumberFormatter.formatNumberOptions();
+  var numberStr = JsNumberFormatter.formatNumber(number, options, false);
+  return numberStr;
 }
 
 function numberFromFormat(format) {
@@ -347,9 +374,8 @@ function numberFromFormat(format) {
 }
 
 function updateCurrencyAmountValues() {
-  var currencies = ['100_bills', '20_bills', '5_bills', 'aurei', 'denarii', 'denarii_mangled'];
-  $.each(currencies, function(i, currency) {
-    setCurrencyAmountValue($('#' + currency));
+  $.each(Currency.values(), function(i, currency) {
+    setCurrencyAmountValue($('#' + currency.id));
   });
 }
 
