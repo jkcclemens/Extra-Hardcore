@@ -1,10 +1,12 @@
 <!doctype html>
+<!--suppress HtmlUnknownTag -->
 <html lang="en">
 <head>
   <meta charset="utf-8"/>
   <title>FNVEH – Math sheet</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.0.3/semantic.min.css"/>
   <link rel="stylesheet" href="css/unsemantic-grid-responsive.css"/>
+  <!--suppress HtmlUnknownTarget -->
   <link rel="stylesheet" href="css/styles.css"/>
 </head>
 <body>
@@ -19,7 +21,7 @@
           <div class="ui flowing popup transition hidden">
             <div id="save_toggle" class="ui toggle checkbox">
               <input id="internal_save_toggle" class="hidden" tabindex="0" type="checkbox">
-              <label>Autosave</label>
+              <label for="internal_save_toggle">Autosave</label>
             </div>
           </div>
           <div class="or"></div>
@@ -65,8 +67,10 @@
       <i class="circular red plus icon"></i>
       Fallout: New Vegas – Extra Hardcore Math Sheet
     </h1>
+
     <div class="ui vertical segment">
       <h2 class="ui center aligned header">Basic information</h2>
+
       <div class="ui fluid form">
         <div class="two fields">
           <div class="field">
@@ -82,59 +86,45 @@
     </div>
     <div class="ui vertical segment">
       <h2 class="ui center aligned header">S.P.E.C.I.A.L.</h2>
-          <div class="grid-parent">
-            <div class="ui fluid form">
-              <div class="three fields">
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Strength</label>
-                    <input type="number" min="1" max="10" id="strength" placeholder="5"/>
-                  </div>
-                </div> <!-- /Strength grid -->
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Perception</label>
-                    <input type="number" min="1" max="10" id="perception" placeholder="5"/>
-                  </div>
-                </div> <!-- /Perception grid -->
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Endurance</label>
-                    <input type="number" min="1" max="10" id="endurance" placeholder="5"/>
-                  </div>
-                </div> <!-- /Endurance grid -->
-              </div>
-              <div class="three fields">
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Charisma</label>
-                    <input type="number" min="1" max="10" id="charisma" placeholder="5"/>
-                  </div>
-                </div> <!-- /Charisma grid -->
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Intelligence</label>
-                    <input type="number" min="1" max="10" id="intelligence" placeholder="5"/>
-                  </div>
-                </div> <!-- /Intelligence grid -->
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Agility</label>
-                    <input type="number" min="1" max="10" id="agility" placeholder="5"/>
-                  </div>
-                </div> <!-- /Agility grid -->
-              </div>
-              <div class="grid-100">
-                <div class="field">
-                  <label>Luck</label>
-                  <input type="number" min="1" max="10" id="luck" placeholder="5"/>
-                </div>
-              </div> <!-- /Luck grid -->
-          </div> <!-- /UI fluid form -->
-        </div> <!-- /SPECIAL grid div -->
-      </div>
+
+      <div class="ui fluid form">
+        <div class="three fields">
+          <div class="field">
+            <label>Strength</label>
+            <input type="number" min="1" max="10" id="strength" placeholder="5"/>
+          </div> <!-- /Strength grid -->
+          <div class="field">
+            <label>Perception</label>
+            <input type="number" min="1" max="10" id="perception" placeholder="5"/>
+          </div> <!-- /Perception grid -->
+          <div class="field">
+            <label>Endurance</label>
+            <input type="number" min="1" max="10" id="endurance" placeholder="5"/>
+          </div> <!-- /Endurance grid -->
+        </div>
+        <div class="three fields">
+          <div class="field">
+            <label>Charisma</label>
+            <input type="number" min="1" max="10" id="charisma" placeholder="5"/>
+          </div> <!-- /Charisma grid -->
+          <div class="field">
+            <label>Intelligence</label>
+            <input type="number" min="1" max="10" id="intelligence" placeholder="5"/>
+          </div> <!-- /Intelligence grid -->
+          <div class="field">
+            <label>Agility</label>
+            <input type="number" min="1" max="10" id="agility" placeholder="5"/>
+          </div> <!-- /Agility grid -->
+        </div>
+        <div class="field">
+          <label>Luck</label>
+          <input type="number" min="1" max="10" id="luck" placeholder="5"/>
+        </div> <!-- /Luck grid -->
+      </div> <!-- /UI fluid form -->
+    </div>
     <div class="ui vertical segment">
       <h2 class="ui center aligned header">Inventory</h2>
+
       <div class="grid-parent">
         <div class="ui fluid form">
           <div class="field">
@@ -161,7 +151,7 @@
                   <div class="field">
                     <div id="payment_use_caps_first_parent" class="ui toggle checkbox">
                       <input id="payment_use_caps_first" type="checkbox"/>
-                      <label>Use caps before others</label>
+                      <label for="payment_use_caps_first">Use caps before others</label>
                     </div>
                   </div>
                 </div>
@@ -178,134 +168,146 @@
             </div>
           </div>
           <div class="three fields">
-            <div class="grid-33">
-              <div class="field">
-                <label>
-                  <div class="ui currency text shape">
-                    <div class="sides">
-                      <div class="ui active side">
-                        Bottle caps
-                      </div>
-                      <div class="ui value side">
-                        0 caps
-                      </div>
-                      <div class="ui weight side">
-                        0 lbs
-                      </div>
+            <div class="field">
+              <label>
+                <div class="ui currency text shape">
+                  <div class="sides">
+                    <div class="ui active side">
+                      Bottle caps
+                    </div>
+                    <div class="ui value side">
+                      0 caps
+                    </div>
+                    <div class="ui weight side">
+                      0 lbs
                     </div>
                   </div>
-                </label>
-                <div class="ui corner labeled input">
-                  <input type="number" min="0" id="bottle_caps" placeholder="250"/>
-                  <div class="ui corner label">
-                    <i id="caps_help" class="help circle icon"></i>
+                </div>
+              </label>
+
+              <div class="ui corner labeled input">
+                <input type="number" min="0" id="bottle_caps" placeholder="250"/>
+
+                <div class="ui corner label">
+                  <i id="caps_help" class="help circle icon"></i>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>
+                <div class="ui currency text shape">
+                  <div class="sides">
+                    <div class="ui active side">
+                      NCR bills
+                    </div>
+                    <div class="ui value side">
+                      0 caps
+                    </div>
+                    <div class="ui weight side">
+                      0 lbs
+                    </div>
+                  </div>
+                </div>
+              </label>
+
+              <div id="bills_input" data-position="bottom center" class="ui corner labeled input">
+                <input type="number" min="0" id="bills" placeholder="250" readonly/>
+
+                <div class="ui corner label">
+                  <i id="bills_help" class="help circle icon"></i>
+                </div>
+              </div>
+              <div class="ui fluid popup transition hidden">
+                <div class="field">
+                  <label>NCR $100</label>
+
+                  <div class="ui right labeled input">
+                    <input type="number" min="0" id="100_bills" placeholder="250"/>
+
+                    <div class="ui value label">
+                      0
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>NCR $20</label>
+
+                  <div class="ui right labeled input">
+                    <input type="number" min="0" id="20_bills" placeholder="250"/>
+
+                    <div class="ui value label">
+                      0
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>NCR $5</label>
+
+                  <div class="ui right labeled input">
+                    <input type="number" min="0" id="5_bills" placeholder="250"/>
+
+                    <div class="ui value label">
+                      0
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="grid-33">
-              <div class="field">
-                <label>
-                  <div class="ui currency text shape">
-                    <div class="sides">
-                      <div class="ui active side">
-                        NCR bills
-                      </div>
-                      <div class="ui value side">
-                        0 caps
-                      </div>
-                      <div class="ui weight side">
-                        0 lbs
-                      </div>
+            <div class="field">
+              <label>
+                <div class="ui currency text shape">
+                  <div class="sides">
+                    <div class="ui active side">
+                      Legion coins
                     </div>
-                  </div>
-                </label>
-                <div id="bills_input" data-position="bottom center" class="ui corner labeled input">
-                  <input type="number" min="0" id="bills" placeholder="250" readonly/>
-                  <div class="ui corner label">
-                    <i id="bills_help" class="help circle icon"></i>
+                    <div class="ui value side">
+                      0 caps
+                    </div>
+                    <div class="ui weight side">
+                      0 lbs
+                    </div>
                   </div>
                 </div>
-                <div class="ui fluid popup transition hidden">
-                  <div class="field">
-                    <label>NCR $100</label>
-                    <div class="ui right labeled input">
-                      <input type="number" min="0" id="100_bills" placeholder="250"/>
-                      <div class="ui value label">
-                        0
-                      </div>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label>NCR $20</label>
-                    <div class="ui right labeled input">
-                      <input type="number" min="0" id="20_bills" placeholder="250"/>
-                      <div class="ui value label">
-                        0
-                      </div>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label>NCR $5</label>
-                    <div class="ui right labeled input">
-                      <input type="number" min="0" id="5_bills" placeholder="250"/>
-                      <div class="ui value label">
-                        0
-                      </div>
-                    </div>
-                  </div>
+              </label>
+
+              <div id="coins_input" data-position="bottom center" class="ui corner labeled input">
+                <input type="number" min="0" id="coins" placeholder="250" readonly/>
+
+                <div class="ui corner label">
+                  <i id="coins_help" class="help circle icon"></i>
                 </div>
               </div>
-            </div>
-            <div class="grid-33">
-              <div class="field">
-                <label>
-                  <div class="ui currency text shape">
-                    <div class="sides">
-                      <div class="ui active side">
-                        Legion coins
-                      </div>
-                      <div class="ui value side">
-                        0 caps
-                      </div>
-                      <div class="ui weight side">
-                        0 lbs
-                      </div>
+              <div class="ui fluid popup transition hidden">
+                <div class="field">
+                  <label>Legion Aurei</label>
+
+                  <div class="ui right labeled input">
+                    <input type="number" min="0" id="aurei" placeholder="250"/>
+
+                    <div class="ui value label">
+                      0
                     </div>
-                  </div>
-                </label>
-                <div id="coins_input" data-position="bottom center" class="ui corner labeled input">
-                  <input type="number" min="0" id="coins" placeholder="250" readonly/>
-                  <div class="ui corner label">
-                    <i id="coins_help" class="help circle icon"></i>
                   </div>
                 </div>
-                <div class="ui fluid popup transition hidden">
-                  <div class="field">
-                    <label>Legion Aurei</label>
-                    <div class="ui right labeled input">
-                      <input type="number" min="0" id="aurei" placeholder="250"/>
-                      <div class="ui value label">
-                        0
-                      </div>
+                <div class="field">
+                  <label>Legion Denarii</label>
+
+                  <div class="ui right labeled input">
+                    <input type="number" min="0" id="denarii" placeholder="250"/>
+
+                    <div class="ui value label">
+                      0
                     </div>
                   </div>
-                  <div class="field">
-                    <label>Legion Denarii</label>
-                    <div class="ui right labeled input">
-                      <input type="number" min="0" id="denarii" placeholder="250"/>
-                      <div class="ui value label">
-                        0
-                      </div>
-                    </div>
-                  </div>
-                  <div class="field">
-                    <label>Legion Denarii, mangled</label>
-                    <div class="ui right labeled input">
-                      <input type="number" min="0" id="denarii_mangled" placeholder="250"/>
-                      <div class="ui value label">
-                        0
-                      </div>
+                </div>
+                <div class="field">
+                  <label>Legion Denarii, mangled</label>
+
+                  <div class="ui right labeled input">
+                    <input type="number" min="0" id="denarii_mangled" placeholder="250"/>
+
+                    <div class="ui value label">
+                      0
                     </div>
                   </div>
                 </div>
@@ -317,12 +319,14 @@
     </div>
     <div class="ui vertical segment">
       <h2 id="follower_header" data-position="top center" class="ui center aligned header">Follower</h2>
+
       <div class="ui flowing popup transition hidden">
         <button id="follower_dismiss_button" class="ui red button">Dismiss</button>
       </div>
       <div id="follower_dropdown" class="ui fluid search selection dropdown">
         <input id="selected_follower" type="hidden"/>
         <i class="dropdown icon"></i>
+
         <div class="default text">Select follower</div>
         <div class="menu">
           <div class="item" data-value="arcade">
@@ -356,64 +360,52 @@
         </div>
       </div>
       <h3 class="ui center aligned header">S.P.E.C.I.A.L.</h3>
-          <div class="grid-parent">
-            <div id="follower_special" class="ui fluid form">
-              <div class="three fields">
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Strength</label>
-                    <input type="number" min="1" max="10" id="follower_strength" placeholder="5"/>
-                  </div>
-                </div> <!-- /Strength grid -->
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Perception</label>
-                    <input type="number" min="1" max="10" id="follower_perception" placeholder="5"/>
-                  </div>
-                </div> <!-- /Perception grid -->
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Endurance</label>
-                    <input type="number" min="1" max="10" id="follower_endurance" placeholder="5"/>
-                  </div>
-                </div> <!-- /Endurance grid -->
-              </div>
-              <div class="three fields">
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Charisma</label>
-                    <input type="number" min="1" max="10" id="follower_charisma" placeholder="5"/>
-                  </div>
-                </div> <!-- /Charisma grid -->
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Intelligence</label>
-                    <input type="number" min="1" max="10" id="follower_intelligence" placeholder="5"/>
-                  </div>
-                </div> <!-- /Intelligence grid -->
-                <div class="grid-33">
-                  <div class="field">
-                    <label>Agility</label>
-                    <input type="number" min="1" max="10" id="follower_agility" placeholder="5"/>
-                  </div>
-                </div> <!-- /Agility grid -->
-              </div>
-              <div class="grid-100">
-                <div class="field">
-                  <label>Luck</label>
-                  <input type="number" min="1" max="10" id="follower_luck" placeholder="5"/>
-                </div>
-              </div> <!-- /Luck grid -->
-          </div> <!-- /UI fluid form -->
-        </div> <!-- /SPECIAL grid div -->
+
+      <div id="follower_special" class="ui fluid form">
+        <div class="three fields">
+          <div class="field">
+            <label>Strength</label>
+            <input type="number" min="1" max="10" id="follower_strength" placeholder="5"/>
+          </div> <!-- /Strength grid -->
+          <div class="field">
+            <label>Perception</label>
+            <input type="number" min="1" max="10" id="follower_perception" placeholder="5"/>
+          </div> <!-- /Perception grid -->
+          <div class="field">
+            <label>Endurance</label>
+            <input type="number" min="1" max="10" id="follower_endurance" placeholder="5"/>
+          </div> <!-- /Endurance grid -->
+        </div>
+        <div class="three fields">
+          <div class="field">
+            <label>Charisma</label>
+            <input type="number" min="1" max="10" id="follower_charisma" placeholder="5"/>
+          </div> <!-- /Charisma grid -->
+          <div class="field">
+            <label>Intelligence</label>
+            <input type="number" min="1" max="10" id="follower_intelligence" placeholder="5"/>
+          </div> <!-- /Intelligence grid -->
+          <div class="field">
+            <label>Agility</label>
+            <input type="number" min="1" max="10" id="follower_agility" placeholder="5"/>
+          </div> <!-- /Agility grid -->
+        </div>
+        <div class="field">
+          <label>Luck</label>
+          <input type="number" min="1" max="10" id="follower_luck" placeholder="5"/>
+        </div> <!-- /Luck grid -->
+      </div> <!-- /UI fluid form -->
       <h3 class="ui center aligned header">Inventory</h3>
+
       <div class="grid-parent">
         <div class="ui fluid form">
           <h4 class="ui center aligned header">Currency</h4>
+
           <div class="three fields">
             <div class="grid-33">
               <div class="field">
                 <label>Bottle caps</label>
+
                 <div class="ui input">
                   <input type="number" min="0" id="follower_bottle_caps" placeholder="250"/>
                 </div>
@@ -422,6 +414,7 @@
             <div class="grid-33">
               <div class="field">
                 <label>NCR bills</label>
+
                 <div class="labeled input">
                   <input type="number" min="0" id="follower_bills" placeholder="250"/>
                 </div>
@@ -430,6 +423,7 @@
             <div class="grid-33">
               <div class="field">
                 <label>Legion coins</label>
+
                 <div class="ui input">
                   <input type="number" min="0" id="follower_coins" placeholder="250"/>
                 </div>
