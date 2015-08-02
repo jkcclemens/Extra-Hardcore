@@ -506,6 +506,16 @@
     }
   };
 
+  this.getBobbyPinsWeight = function(type) {
+    var pins;
+    pins = getStat(type, 'bobby_pins');
+    if (isNaN(pins)) {
+      return 0;
+    } else {
+      return pins / 720;
+    }
+  };
+
   this.updateCarryWeight = function(type) {
     var armorWeight, end, level, maxCarryWeight, newText, oldText, str;
     end = getStat(type, 'endurance');
@@ -521,7 +531,7 @@
       return;
     }
     oldText = maxCarryWeight.text();
-    newText = Math.round((carryWeight(level, end, str, armorWeight) - getCurrencyWeight(type)) * 100) / 100;
+    newText = Math.round((carryWeight(level, end, str, armorWeight) - getCurrencyWeight(type) - getBobbyPinsWeight(type)) * 100) / 100;
     maxCarryWeight.text(newText);
     if (Number(oldText) !== newText) {
       return maxCarryWeight.transition({
