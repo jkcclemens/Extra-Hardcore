@@ -1,5 +1,5 @@
 (function() {
-  var PaymentCalculator, SaveRunner, root;
+  var PaymentCalculator, SaveRunner, fn, j, len, ref, root, stat, x;
 
   root = this;
 
@@ -37,7 +37,7 @@
       return $('#' + content.id);
     };
     if (!content.hasOwnProperty('getValue')) {
-      return content.getValue = function() {
+      content.getValue = function() {
         var value;
         value = 0;
         this.getField().parent().siblings('.popup').find('.value.label').each(function(i, element) {
@@ -47,6 +47,7 @@
         return value;
       };
     }
+    return true;
   });
 
   this.Currency = {
@@ -245,6 +246,109 @@
 
   })();
 
+  this.CasingUtilities = (function() {
+    function CasingUtilities() {}
+
+    CasingUtilities.snakeToCamel = function(s) {
+      return s.replace(/(_\w)/g, function(m) {
+        return m[1].toUpperCase();
+      });
+    };
+
+    return CasingUtilities;
+
+  })();
+
+  this.Statistics = (function() {
+    function Statistics(type1) {
+      this.type = type1 != null ? type1 : Type.PLAYER;
+    }
+
+    Statistics.prototype.getPrefix = function() {
+      if (this.type === Type.PLAYER) {
+        return "";
+      } else {
+        return "follower_";
+      }
+    };
+
+    Statistics.prototype.getStatZero = function(name) {
+      return orr(parseInt($("#" + (this.getPrefix()) + name).val()));
+    };
+
+    return Statistics;
+
+  })();
+
+  ref = ['level', 'strength', 'perception', 'endurance', 'charisma', 'intelligence', 'agility', 'luck', 'armor_weight', 'bobby_pins', CurrencyType.CAPS.id, CurrencyType.BILLS.id, CurrencyType.COINS.id].concat((function() {
+    var k, len, ref, results;
+    ref = Currency.values();
+    results = [];
+    for (k = 0, len = ref.length; k < len; k++) {
+      x = ref[k];
+      results.push(x.id);
+    }
+    return results;
+  })());
+  fn = function(stat) {
+    return Statistics.prototype[CasingUtilities.snakeToCamel("get_" + stat)] = function() {
+      return this.getStatZero(stat);
+    };
+  };
+  for (j = 0, len = ref.length; j < len; j++) {
+    stat = ref[j];
+    fn(stat);
+  }
+
+  this.StatisticCalculator = (function() {
+    function StatisticCalculator(type) {
+      if (type == null) {
+        type = Type.PLAYER;
+      }
+      this.stats = new Statistics(type);
+    }
+
+    StatisticCalculator.prototype.getActionPoints = function() {
+      return 65 + (this.stats.getAgility() * 3);
+    };
+
+    StatisticCalculator.prototype.getCriticalChance = function() {
+      return (this.stats.getLuck()) + "%";
+    };
+
+    StatisticCalculator.prototype.getHitPoints = function() {
+      return 95 + (this.stats.getEndurance() * 20) + (this.stats.getLevel() * 5);
+    };
+
+    StatisticCalculator.prototype.getMeleeDamage = function() {
+      return this.stats.getStrength() / 2;
+    };
+
+    StatisticCalculator.prototype.getPoisonResistance = function() {
+      return ((this.stats.getEndurance() * 5) - 5) + "%";
+    };
+
+    StatisticCalculator.prototype.getRadiationResistance = function() {
+      return ((this.stats.getEndurance() * 2) - 2) + "%";
+    };
+
+    StatisticCalculator.prototype.getReloadSpeed = function() {
+      var agility;
+      agility = this.stats.getAgility();
+      if (agility <= 5) {
+        return "0%";
+      }
+      return ((agility - 5) * 10) + "%";
+    };
+
+    StatisticCalculator.prototype.getSkillRate = function() {
+      return 10 + (this.stats.getIntelligence() / 2);
+    };
+
+    return StatisticCalculator;
+
+  })();
+
   this.saveRunner = new SaveRunner();
 
   this.carryWeight = function(level, endurance, strength, armor) {
@@ -269,11 +373,8 @@
     if (type == null) {
       type = Type.PLAYER;
     }
-    prepend = '';
-    if (type === Type.FOLLOWER) {
-      prepend = 'follower_';
-    }
-    return parseInt($('#' + prepend + stat).val());
+    prepend = type === Type.FOLLOWER ? 'follower_' : '';
+    return parseInt($("#" + prepend + stat).val());
   };
 
   this.followerIndex = function(lvl, cha, per, lck) {
@@ -464,7 +565,8 @@
 
   this.updateCurrencyAmountValues = function() {
     return $.each(Currency.values(), function(i, currency) {
-      return setCurrencyAmountValue($("#" + currency.id));
+      setCurrencyAmountValue($("#" + currency.id));
+      return true;
     });
   };
 
@@ -626,10 +728,24 @@
     return prepare();
   };
 
+  this.updateBaseDerivedStatistics = function() {
+    var sc;
+    sc = new StatisticCalculator();
+    $('#stat_action_points').text(sc.getActionPoints());
+    $('#stat_critical_chance').text(sc.getCriticalChance());
+    $('#stat_hit_points').text(sc.getHitPoints());
+    $('#stat_melee_damage').text(sc.getMeleeDamage());
+    $('#stat_poison_resistance').text(sc.getPoisonResistance());
+    $('#stat_radiation_resistance').text(sc.getRadiationResistance());
+    $('#stat_reload_speed').text(sc.getReloadSpeed());
+    return $('#stat_skill_rate').text(sc.getSkillRate());
+  };
+
   this.processInformation = function() {
     checkFollower();
     updateCarryWeight(Type.PLAYER);
-    return updateCarryWeight(Type.FOLLOWER);
+    updateCarryWeight(Type.FOLLOWER);
+    return updateBaseDerivedStatistics();
   };
 
   $(function() {
@@ -642,6 +758,9 @@
     $('#load_button').click(function() {
       loadData(Cookies.getJSON('saved_data'));
       return cycleButton('load_button', 'Done');
+    });
+    $('#bds_button').click(function() {
+      return $('#derived_statistics').modal('show');
     });
     $('.ui.sticky').sticky({
       context: '.grid-70'

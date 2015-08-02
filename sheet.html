@@ -59,6 +59,16 @@
                 <abbr title="Follower max carry weight">FMCW</abbr>
               </div>
             </div>
+            <div class="statistic">
+              <div class="value">
+                <div id="bds_button" class="ui huge black button">
+                  Stats
+                </div>
+              </div>
+              <div class="label">
+                <abbr title="Basic derived stats">BDS</abbr>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -137,42 +147,43 @@
               <input type="number" min="0" id="bobby_pins" placeholder="25"/>
             </div>
           </div>
-          <h3 id="currency_header" data-position="top center" class="ui center aligned header">
+          <h3 class="ui center aligned header">
             <div class="content">
-              Currency
+              <span id="currency_header" data-position="top center">Currency</span>
+
+              <div class="ui fluid popup transition hidden">
+                <div class="ui center aligned header">Payment calculator</div>
+                <div class="ui grid">
+                  <div class="two column row">
+                    <div class="five wide column">
+                      <div class="field">
+                        <label>Cost in caps</label>
+                        <input type="number" min="0" id="cost" placeholder="250"/>
+                      </div>
+                      <div class="field">
+                        <div id="payment_use_caps_first_parent" class="ui toggle checkbox">
+                          <input id="payment_use_caps_first" type="checkbox"/>
+                          <label for="payment_use_caps_first">Use caps before others</label>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="payment_currencies" class="nine wide column" style="margin: auto; text-align: center;">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="column">
+                      <div id="process_button" class="ui blue fluid button">
+                        Process
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="sub header">
                 <span id="currency_total_caps">0 caps</span> / <span id="currency_total_weight">0 lbs</span>
               </div>
             </div>
           </h3>
-          <div class="ui fluid popup transition hidden">
-            <div class="ui center aligned header">Payment calculator</div>
-            <div class="ui grid">
-              <div class="two column row">
-                <div class="five wide column">
-                  <div class="field">
-                    <label>Cost in caps</label>
-                    <input type="number" min="0" id="cost" placeholder="250"/>
-                  </div>
-                  <div class="field">
-                    <div id="payment_use_caps_first_parent" class="ui toggle checkbox">
-                      <input id="payment_use_caps_first" type="checkbox"/>
-                      <label for="payment_use_caps_first">Use caps before others</label>
-                    </div>
-                  </div>
-                </div>
-                <div id="payment_currencies" class="nine wide column" style="margin: auto; text-align: center;">
-                </div>
-              </div>
-              <div class="row">
-                <div class="column">
-                  <div id="process_button" class="ui blue fluid button">
-                    Process
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
           <div class="three fields">
             <div class="field">
               <label>
@@ -324,11 +335,13 @@
       </div>
     </div>
     <div class="ui vertical segment">
-      <h2 id="follower_header" data-position="top center" class="ui center aligned header">Follower</h2>
+      <h2 class="ui center aligned header">
+        <span id="follower_header" data-position="top center">Follower</span>
 
-      <div class="ui flowing popup transition hidden">
-        <button id="follower_dismiss_button" class="ui red button">Dismiss</button>
-      </div>
+        <div class="ui flowing popup transition hidden">
+          <button id="follower_dismiss_button" class="ui red button">Dismiss</button>
+        </div>
+      </h2>
       <div id="follower_dropdown" class="ui fluid search selection dropdown">
         <input id="selected_follower" type="hidden"/>
         <i class="dropdown icon"></i>
@@ -432,6 +445,81 @@
               <input type="number" min="0" id="follower_coins" placeholder="250"/>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ui basic fullscreen modal" id="derived_statistics" style="text-align: center;">
+  <i class="close icon"></i>
+
+  <div class="header">
+    Base derived statistics
+  </div>
+  <div class="content">
+    <div class="ui eight statistics">
+      <div class="statistic">
+        <div id="stat_action_points" class="value">
+          0
+        </div>
+        <div class="label">
+          Action points
+        </div>
+      </div>
+      <div class="statistic">
+        <div id="stat_critical_chance" class="value">
+          0
+        </div>
+        <div class="label">
+          Critical chance
+        </div>
+      </div>
+      <div class="statistic">
+        <div id="stat_hit_points" class="value">
+          0
+        </div>
+        <div class="label">
+          Hit points
+        </div>
+      </div>
+      <div class="statistic">
+        <div id="stat_melee_damage" class="value">
+          0
+        </div>
+        <div class="label">
+          Melee damage
+        </div>
+      </div>
+      <div class="statistic">
+        <div id="stat_poison_resistance" class="value">
+          0
+        </div>
+        <div class="label">
+          Poison resistance
+        </div>
+      </div>
+      <div class="statistic">
+        <div id="stat_radiation_resistance" class="value">
+          0
+        </div>
+        <div class="label">
+          Radiation resistance
+        </div>
+      </div>
+      <div class="statistic">
+        <div id="stat_reload_speed" class="value">
+          0
+        </div>
+        <div class="label">
+          Reload speed
+        </div>
+      </div>
+      <div class="statistic">
+        <div id="stat_skill_rate" class="value">
+          0
+        </div>
+        <div class="label">
+          Skill rate
         </div>
       </div>
     </div>
