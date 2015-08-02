@@ -403,41 +403,33 @@
       </div> <!-- /UI fluid form -->
       <h3 class="ui center aligned header">Inventory</h3>
 
-      <div class="grid-parent">
-        <div class="ui fluid form">
+      <div class="ui fluid form">
+        <div class="field">
+          <label>Bobby pins</label>
+          <input type="number" min="0" id="follower_bobby_pins" placeholder="25"/>
+        </div>
+        <h4 class="ui center aligned header">Currency</h4>
+
+        <div class="three fields">
           <div class="field">
-            <label>Bobby pins</label>
-            <input type="number" min="0" id="follower_bobby_pins" placeholder="25"/>
+            <label>Bottle caps</label>
+
+            <div class="ui input">
+              <input type="number" min="0" id="follower_bottle_caps" placeholder="250"/>
+            </div>
           </div>
-          <h4 class="ui center aligned header">Currency</h4>
+          <div class="field">
+            <label>NCR bills</label>
 
-          <div class="three fields">
-            <div class="grid-33">
-              <div class="field">
-                <label>Bottle caps</label>
-
-                <div class="ui input">
-                  <input type="number" min="0" id="follower_bottle_caps" placeholder="250"/>
-                </div>
-              </div>
+            <div class="labeled input">
+              <input type="number" min="0" id="follower_bills" placeholder="250"/>
             </div>
-            <div class="grid-33">
-              <div class="field">
-                <label>NCR bills</label>
+          </div>
+          <div class="field">
+            <label>Legion coins</label>
 
-                <div class="labeled input">
-                  <input type="number" min="0" id="follower_bills" placeholder="250"/>
-                </div>
-              </div>
-            </div>
-            <div class="grid-33">
-              <div class="field">
-                <label>Legion coins</label>
-
-                <div class="ui input">
-                  <input type="number" min="0" id="follower_coins" placeholder="250"/>
-                </div>
-              </div>
+            <div class="ui input">
+              <input type="number" min="0" id="follower_coins" placeholder="250"/>
             </div>
           </div>
         </div>
